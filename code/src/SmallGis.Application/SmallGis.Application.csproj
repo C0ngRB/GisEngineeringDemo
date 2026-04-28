@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4C9BB0A-2EF8-457F-8402-42A166949B9C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SmallGis.Application</RootNamespace>
+    <AssemblyName>SmallGis.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmallGis.Domain\SmallGis.Domain.csproj">
+      <Project>{13A68F0E-49F2-4BBE-9EA0-D51D9C9AB191}</Project>
+      <Name>SmallGis.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ports\IFeatureQueryPort.cs" />
+    <Compile Include="Ports\ILayerCatalogPort.cs" />
+    <Compile Include="Ports\ILoggerPort.cs" />
+    <Compile Include="Ports\IMapDocumentPort.cs" />
+    <Compile Include="Ports\IMapNavigationPort.cs" />
+    <Compile Include="Ports\IQueryResultExportPort.cs" />
+    <Compile Include="Ports\ISelectionPort.cs" />
+    <Compile Include="Ports\ISpatialQueryPort.cs" />
+    <Compile Include="UseCases\AddFileGdbLayerUseCase.cs" />
+    <Compile Include="UseCases\AddShapefileLayerUseCase.cs" />
+    <Compile Include="UseCases\ClearSelectionUseCase.cs" />
+    <Compile Include="UseCases\ExportQueryResultUseCase.cs" />
+    <Compile Include="UseCases\ListLayersUseCase.cs" />
+    <Compile Include="UseCases\OpenMapDocumentUseCase.cs" />
+    <Compile Include="UseCases\QueryFeaturesByAttributeUseCase.cs" />
+    <Compile Include="UseCases\QueryFeaturesBySpatialRelationUseCase.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

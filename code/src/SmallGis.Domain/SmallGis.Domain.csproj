@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{13A68F0E-49F2-4BBE-9EA0-D51D9C9AB191}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SmallGis.Domain</RootNamespace>
+    <AssemblyName>SmallGis.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Enums\GeometryType.cs" />
+    <Compile Include="Enums\LayerType.cs" />
+    <Compile Include="Enums\QueryOperator.cs" />
+    <Compile Include="Enums\SpatialRelationType.cs" />
+    <Compile Include="Models\FeatureRecord.cs" />
+    <Compile Include="Models\FieldInfo.cs" />
+    <Compile Include="Models\LayerInfo.cs" />
+    <Compile Include="Models\MapDocumentInfo.cs" />
+    <Compile Include="Models\MapExtent.cs" />
+    <Compile Include="Models\QueryCondition.cs" />
+    <Compile Include="Models\QueryResult.cs" />
+    <Compile Include="Models\SpatialQueryCondition.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

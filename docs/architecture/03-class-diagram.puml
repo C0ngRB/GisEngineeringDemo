@@ -1,0 +1,258 @@
+`docs/architecture/03-class-diagram.puml`
+```plantuml
+@startuml
+title Small GIS Clean Architecture Class Diagram
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "SmallGis.Domain" {
+
+  enum LayerType {
+    Unknown
+    FeatureLayer
+    RasterLayer
+  }
+
+  enum GeometryType {
+    Unknown
+    Point
+    Polyline
+    Polygon
+  }
+
+  enum QueryOperator {
+    Equal
+    NotEqual
+    GreaterThan
+    GreaterOrEqual
+    LessThan
+    LessOrEqual
+    Like
+  }
+
+  enum SpatialRelationType {
+    Intersects
+    Contains
+    Within
+    EnvelopeIntersects
+  }
+
+  class LayerInfo {
+    +string Id
+    +string Name
+    +LayerType LayerType
+    +GeometryType GeometryType
+    +bool Visible
+    +string DataSourcePath
+    +int FeatureCount
+  }
+
+  class FieldInfo {
+    +string Name
+    +string AliasName
+    +string FieldType
+    +bool IsNullable
+    +bool IsEditable
+  }
+
+  class MapExtent {
+    +double XMin
+    +double YMin
+    +double XMax
+    +double YMax
+  }
+
+  class FeatureRecord {
+    +int ObjectId
+    +string LayerName
+    +GeometryType GeometryType
+    +MapExtent Extent
+    +Dictionary<string, object> Attributes
+  }
+
+  class QueryCondition {
+    +string LayerName
+    +string FieldName
+    +QueryOperator Operator
+    +string Value
+    +string RawWhereClause
+  }
+
+  class SpatialQueryCondition {
+    +string TargetLayerName
+    +SpatialRelationType RelationType
+    +MapExtent QueryExtent
+    +double BufferDistance
+    +string SourceLayerName
+    +int SourceFeatureObjectId
+  }
+
+  class QueryResult {
+    +string LayerName
+    +int TotalCount
+    +List<FeatureRecord> Records
+    +string Message
+  }
+
+  class MapDocumentInfo {
+    +string FilePath
+    +string Title
+    +List<LayerInfo> Layers
+  }
+}
+
+package "SmallGis.Application.Ports" {
+
+  interface IMapDocumentPort {
+    +MapDocumentInfo OpenMapDocument(string mxdPath)
+    +void SaveMapDocument(string mxdPath)
+    +bool CanOpen(string mxdPath)
+  }
+
+  interface ILayerCatalogPort {
+    +IList<LayerInfo> GetLayers()
+    +LayerInfo AddShapefile(string folderPath, string fileName)
+    +LayerInfo AddFileGdbFeatureClass(string gdbPath, string featureClassName)
+    +void RemoveLayer(string layerName)
+    +void SetLayerVisible(string layerName, bool visible)
+    +IList<FieldInfo> GetFields(string layerName)
+  }
+
+  interface IFeatureQueryPort {
+    +QueryResult QueryByAttribute(QueryCondition condition)
+    +IList<FeatureRecord> GetAllFeatures(string layerName, int maxCount)
+  }
+
+  interface ISpatialQueryPort {
+    +QueryResult QueryByExtent(SpatialQueryCondition condition)
+    +QueryResult QueryBySelectedFeature(SpatialQueryCondition condition)
+  }
+
+  interface ISelectionPort {
+    +void SelectFeatures(string layerName, IList<int> objectIds)
+    +void ClearSelection()
+    +void FlashFeatures(string layerName, IList<int> objectIds)
+  }
+
+  interface IMapNavigationPort {
+    +void ZoomIn()
+    +void ZoomOut()
+    +void Pan()
+    +void FullExtent()
+    +void ZoomToLayer(string layerName)
+    +void ZoomToSelectedFeatures()
+  }
+
+  interface IQueryResultExportPort {
+    +void ExportToCsv(QueryResult result, string outputPath)
+  }
+
+  interface ILoggerPort {
+    +void Info(string message)
+    +void Warn(string message)
+    +void Error(string message)
+    +void Error(string message, Exception ex)
+  }
+}
+
+package "SmallGis.Application.UseCases" {
+
+  class OpenMapDocumentUseCase {
+    -IMapDocumentPort mapDocumentPort
+    -ILayerCatalogPort layerCatalogPort
+    -ILoggerPort logger
+    +MapDocumentInfo Execute(string mxdPath)
+  }
+
+  class AddShapefileLayerUseCase {
+    -ILayerCatalogPort layerCatalogPort
+    -ILoggerPort logger
+    +LayerInfo Execute(string folderPath, string fileName)
+  }
+
+  class QueryFeaturesByAttributeUseCase {
+    -IFeatureQueryPort queryPort
+    -ISelectionPort selectionPort
+    -ILoggerPort logger
+    +QueryResult Execute(QueryCondition condition)
+  }
+
+  class QueryFeaturesBySpatialRelationUseCase {
+    -ISpatialQueryPort spatialQueryPort
+    -ISelectionPort selectionPort
+    -ILoggerPort logger
+    +QueryResult Execute(SpatialQueryCondition condition)
+  }
+
+  class ClearSelectionUseCase {
+    -ISelectionPort selectionPort
+    +void Execute()
+  }
+
+  class ExportQueryResultUseCase {
+    -IQueryResultExportPort exportPort
+    -ILoggerPort logger
+    +void Execute(QueryResult result, string outputPath)
+  }
+}
+
+package "SmallGis.Infrastructure.ArcObjects" {
+
+  class ArcMapDocumentAdapter
+  class ArcLayerCatalogAdapter
+  class ArcFeatureQueryAdapter
+  class ArcSpatialQueryAdapter
+  class ArcSelectionAdapter
+  class ArcMapNavigationAdapter
+  class ArcFeatureMapper
+  class ArcGeometryMapper
+  class ArcObjectsComReleaser
+  class CsvQueryResultExporter
+  class FileLogger
+
+  ArcMapDocumentAdapter ..|> IMapDocumentPort
+  ArcLayerCatalogAdapter ..|> ILayerCatalogPort
+  ArcFeatureQueryAdapter ..|> IFeatureQueryPort
+  ArcSpatialQueryAdapter ..|> ISpatialQueryPort
+  ArcSelectionAdapter ..|> ISelectionPort
+  ArcMapNavigationAdapter ..|> IMapNavigationPort
+  CsvQueryResultExporter ..|> IQueryResultExportPort
+  FileLogger ..|> ILoggerPort
+}
+
+package "SmallGis.Presentation.WinForms" {
+
+  class Program
+  class MainForm
+  class AttributeQueryForm
+  class SpatialQueryForm
+  class AttributeTableForm
+  class LayerManagerForm
+  class MainFormController
+  class AppCompositionRoot
+
+  MainForm --> MainFormController
+  AppCompositionRoot --> MainFormController
+}
+
+OpenMapDocumentUseCase --> IMapDocumentPort
+OpenMapDocumentUseCase --> ILayerCatalogPort
+OpenMapDocumentUseCase --> ILoggerPort
+
+AddShapefileLayerUseCase --> ILayerCatalogPort
+AddShapefileLayerUseCase --> ILoggerPort
+
+QueryFeaturesByAttributeUseCase --> IFeatureQueryPort
+QueryFeaturesByAttributeUseCase --> ISelectionPort
+QueryFeaturesByAttributeUseCase --> ILoggerPort
+
+QueryFeaturesBySpatialRelationUseCase --> ISpatialQueryPort
+QueryFeaturesBySpatialRelationUseCase --> ISelectionPort
+QueryFeaturesBySpatialRelationUseCase --> ILoggerPort
+
+ClearSelectionUseCase --> ISelectionPort
+ExportQueryResultUseCase --> IQueryResultExportPort
+ExportQueryResultUseCase --> ILoggerPort
+
+@enduml

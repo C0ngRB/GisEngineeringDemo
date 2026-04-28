@@ -1,0 +1,157 @@
+docs/architecture/04-sequence-diagrams.puml
+@startuml
+title Sequence 1 - 打开 MXD 地图文档
+
+actor User
+participant MainForm
+participant MainFormController
+participant OpenMapDocumentUseCase
+participant IMapDocumentPort
+participant ILayerCatalogPort
+participant ILoggerPort
+participant ArcMapDocumentAdapter
+participant ArcLayerCatalogAdapter
+
+User -> MainForm: 点击“打开地图文档”
+MainForm -> MainForm: 选择 mxd 文件路径
+MainForm -> MainFormController: OpenMapDocument(mxdPath)
+
+MainFormController -> OpenMapDocumentUseCase: Execute(mxdPath)
+OpenMapDocumentUseCase -> ILoggerPort: Info("Open MXD")
+OpenMapDocumentUseCase -> IMapDocumentPort: OpenMapDocument(mxdPath)
+IMapDocumentPort -> ArcMapDocumentAdapter: OpenMapDocument(mxdPath)
+ArcMapDocumentAdapter --> IMapDocumentPort: MapDocumentInfo
+
+OpenMapDocumentUseCase -> ILayerCatalogPort: GetLayers()
+ILayerCatalogPort -> ArcLayerCatalogAdapter: GetLayers()
+ArcLayerCatalogAdapter --> ILayerCatalogPort: IList<LayerInfo>
+
+OpenMapDocumentUseCase --> MainFormController: MapDocumentInfo
+MainFormController --> MainForm: DisplayMapInfo(info)
+MainForm -> MainForm: 刷新图层列表和状态栏
+
+@enduml
+
+
+@startuml
+title Sequence 2 - 添加 Shapefile 图层
+
+actor User
+participant MainForm
+participant MainFormController
+participant AddShapefileLayerUseCase
+participant ILayerCatalogPort
+participant ILoggerPort
+participant ArcLayerCatalogAdapter
+
+User -> MainForm: 点击“添加 Shapefile”
+MainForm -> MainForm: 选择 shp 文件
+MainForm -> MainFormController: AddShapefile(folderPath, fileName)
+
+MainFormController -> AddShapefileLayerUseCase: Execute(folderPath, fileName)
+AddShapefileLayerUseCase -> ILoggerPort: Info("Add shapefile")
+AddShapefileLayerUseCase -> ILayerCatalogPort: AddShapefile(folderPath, fileName)
+ILayerCatalogPort -> ArcLayerCatalogAdapter: AddShapefile(folderPath, fileName)
+ArcLayerCatalogAdapter --> ILayerCatalogPort: LayerInfo
+
+AddShapefileLayerUseCase --> MainFormController: LayerInfo
+MainFormController --> MainForm: RefreshLayerList()
+MainForm -> MainForm: 刷新地图和 TOC
+
+@enduml
+
+
+@startuml
+title Sequence 3 - 属性查询
+
+actor User
+participant MainForm
+participant AttributeQueryForm
+participant MainFormController
+participant QueryFeaturesByAttributeUseCase
+participant IFeatureQueryPort
+participant ISelectionPort
+participant ILoggerPort
+participant ArcFeatureQueryAdapter
+participant ArcSelectionAdapter
+participant AttributeTableForm
+
+User -> MainForm: 点击“属性查询”
+MainForm -> AttributeQueryForm: ShowDialog()
+AttributeQueryForm --> MainForm: QueryCondition
+
+MainForm -> MainFormController: QueryByAttribute(condition)
+MainFormController -> QueryFeaturesByAttributeUseCase: Execute(condition)
+
+QueryFeaturesByAttributeUseCase -> ILoggerPort: Info("Attribute query")
+QueryFeaturesByAttributeUseCase -> IFeatureQueryPort: QueryByAttribute(condition)
+IFeatureQueryPort -> ArcFeatureQueryAdapter: QueryByAttribute(condition)
+ArcFeatureQueryAdapter --> IFeatureQueryPort: QueryResult
+
+QueryFeaturesByAttributeUseCase -> ISelectionPort: SelectFeatures(layerName, objectIds)
+ISelectionPort -> ArcSelectionAdapter: SelectFeatures(layerName, objectIds)
+
+QueryFeaturesByAttributeUseCase --> MainFormController: QueryResult
+MainFormController --> MainForm: DisplayQueryResult(result)
+MainForm -> AttributeTableForm: Show(result)
+
+@enduml
+
+
+@startuml
+title Sequence 4 - 空间查询
+
+actor User
+participant MainForm
+participant SpatialQueryForm
+participant MainFormController
+participant QueryFeaturesBySpatialRelationUseCase
+participant ISpatialQueryPort
+participant ISelectionPort
+participant ILoggerPort
+participant ArcSpatialQueryAdapter
+participant ArcSelectionAdapter
+participant AttributeTableForm
+
+User -> MainForm: 点击“空间查询”
+MainForm -> SpatialQueryForm: ShowDialog()
+SpatialQueryForm --> MainForm: SpatialQueryCondition
+
+MainForm -> MainFormController: QueryBySpatialRelation(condition)
+MainFormController -> QueryFeaturesBySpatialRelationUseCase: Execute(condition)
+
+QueryFeaturesBySpatialRelationUseCase -> ILoggerPort: Info("Spatial query")
+QueryFeaturesBySpatialRelationUseCase -> ISpatialQueryPort: QueryByExtent(condition)
+ISpatialQueryPort -> ArcSpatialQueryAdapter: QueryByExtent(condition)
+ArcSpatialQueryAdapter --> ISpatialQueryPort: QueryResult
+
+QueryFeaturesBySpatialRelationUseCase -> ISelectionPort: SelectFeatures(layerName, objectIds)
+ISelectionPort -> ArcSelectionAdapter: SelectFeatures(layerName, objectIds)
+
+QueryFeaturesBySpatialRelationUseCase --> MainFormController: QueryResult
+MainFormController --> MainForm: DisplayQueryResult(result)
+MainForm -> AttributeTableForm: Show(result)
+
+@enduml
+
+
+@startuml
+title Sequence 5 - 清除选择
+
+actor User
+participant MainForm
+participant MainFormController
+participant ClearSelectionUseCase
+participant ISelectionPort
+participant ArcSelectionAdapter
+
+User -> MainForm: 点击“清除选择”
+MainForm -> MainFormController: ClearSelection()
+MainFormController -> ClearSelectionUseCase: Execute()
+ClearSelectionUseCase -> ISelectionPort: ClearSelection()
+ISelectionPort -> ArcSelectionAdapter: ClearSelection()
+ArcSelectionAdapter --> ISelectionPort: void
+ClearSelectionUseCase --> MainFormController: void
+MainFormController --> MainForm: RefreshMap()
+
+@enduml
