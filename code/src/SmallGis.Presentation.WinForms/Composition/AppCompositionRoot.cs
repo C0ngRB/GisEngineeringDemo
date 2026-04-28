@@ -2,6 +2,7 @@ using System;
 using ESRI.ArcGIS.Controls;
 using SmallGis.Application.UseCases;
 using SmallGis.Infrastructure.ArcObjects.Adapters;
+using SmallGis.Infrastructure.ArcObjects.Export;
 using SmallGis.Infrastructure.ArcObjects.Logging;
 using SmallGis.Presentation.WinForms.Controllers;
 
@@ -26,6 +27,7 @@ namespace SmallGis.Presentation.WinForms.Composition
             ArcSpatialQueryAdapter spatialQueryAdapter = new ArcSpatialQueryAdapter(mapControlAdapter);
             ArcSelectionAdapter selectionAdapter = new ArcSelectionAdapter(mapControlAdapter);
             ArcMapNavigationAdapter navigationAdapter = new ArcMapNavigationAdapter(mapControlAdapter);
+            CsvQueryResultExporter csvExporter = new CsvQueryResultExporter();
 
             return new MainFormController(
                 new OpenMapDocumentUseCase(mapDocumentAdapter, layerCatalogAdapter, logger),
@@ -33,6 +35,8 @@ namespace SmallGis.Presentation.WinForms.Composition
                 new ListLayersUseCase(layerCatalogAdapter),
                 new QueryFeaturesByAttributeUseCase(featureQueryAdapter, selectionAdapter, logger),
                 new QueryFeaturesBySpatialRelationUseCase(spatialQueryAdapter, selectionAdapter, logger),
+                new ShowAttributeTableUseCase(featureQueryAdapter, logger),
+                new ExportQueryResultUseCase(csvExporter, logger),
                 new ClearSelectionUseCase(selectionAdapter),
                 new ArcMapNavigationActions(navigationAdapter));
         }

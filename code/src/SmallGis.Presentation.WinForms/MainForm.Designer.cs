@@ -21,6 +21,8 @@ namespace SmallGis.Presentation.WinForms
         private System.Windows.Forms.ToolStripMenuItem queryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem attributeQueryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spatialQueryMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showAttributeTableMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportCsvMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearSelectionMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fullExtentMenuItem;
@@ -33,6 +35,8 @@ namespace SmallGis.Presentation.WinForms
         private System.Windows.Forms.ToolStripButton openMxdToolButton;
         private System.Windows.Forms.ToolStripButton addShapefileToolButton;
         private System.Windows.Forms.ToolStripButton attributeQueryToolButton;
+        private System.Windows.Forms.ToolStripButton attributeTableToolButton;
+        private System.Windows.Forms.ToolStripButton exportCsvToolButton;
         private System.Windows.Forms.ToolStripButton clearSelectionToolButton;
         private System.Windows.Forms.ToolStripButton fullExtentToolButton;
 
@@ -56,6 +60,8 @@ namespace SmallGis.Presentation.WinForms
             this.queryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.attributeQueryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spatialQueryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAttributeTableMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportCsvMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearSelectionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullExtentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +75,8 @@ namespace SmallGis.Presentation.WinForms
             this.openMxdToolButton = new System.Windows.Forms.ToolStripButton();
             this.addShapefileToolButton = new System.Windows.Forms.ToolStripButton();
             this.attributeQueryToolButton = new System.Windows.Forms.ToolStripButton();
+            this.attributeTableToolButton = new System.Windows.Forms.ToolStripButton();
+            this.exportCsvToolButton = new System.Windows.Forms.ToolStripButton();
             this.clearSelectionToolButton = new System.Windows.Forms.ToolStripButton();
             this.fullExtentToolButton = new System.Windows.Forms.ToolStripButton();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -116,10 +124,14 @@ namespace SmallGis.Presentation.WinForms
             this.queryMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.attributeQueryMenuItem,
             this.spatialQueryMenuItem,
+            this.showAttributeTableMenuItem,
+            this.exportCsvMenuItem,
             this.clearSelectionMenuItem});
             this.queryMenuItem.Text = "Query";
             this.attributeQueryMenuItem.Text = "Attribute Query";
             this.spatialQueryMenuItem.Text = "Spatial Query";
+            this.showAttributeTableMenuItem.Text = "Attribute Table";
+            this.exportCsvMenuItem.Text = "Export CSV";
             this.clearSelectionMenuItem.Text = "Clear Selection";
             this.viewMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fullExtentMenuItem,
@@ -141,6 +153,8 @@ namespace SmallGis.Presentation.WinForms
             this.openMxdToolButton,
             this.addShapefileToolButton,
             this.attributeQueryToolButton,
+            this.attributeTableToolButton,
+            this.exportCsvToolButton,
             this.clearSelectionToolButton,
             this.fullExtentToolButton});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 25);
@@ -150,6 +164,8 @@ namespace SmallGis.Presentation.WinForms
             this.openMxdToolButton.Text = "Open";
             this.addShapefileToolButton.Text = "Add SHP";
             this.attributeQueryToolButton.Text = "Query";
+            this.attributeTableToolButton.Text = "Table";
+            this.exportCsvToolButton.Text = "CSV";
             this.clearSelectionToolButton.Text = "Clear";
             this.fullExtentToolButton.Text = "Full";
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

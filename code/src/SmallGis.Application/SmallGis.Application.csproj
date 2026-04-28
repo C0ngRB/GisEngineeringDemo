@@ -52,6 +52,7 @@
     <Compile Include="UseCases\OpenMapDocumentUseCase.cs" />
     <Compile Include="UseCases\QueryFeaturesByAttributeUseCase.cs" />
     <Compile Include="UseCases\QueryFeaturesBySpatialRelationUseCase.cs" />
+    <Compile Include="UseCases\ShowAttributeTableUseCase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

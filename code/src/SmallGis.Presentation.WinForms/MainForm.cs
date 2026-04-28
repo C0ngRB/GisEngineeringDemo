@@ -11,6 +11,7 @@ namespace SmallGis.Presentation.WinForms
     public partial class MainForm : Form
     {
         private MainFormController controller;
+        private QueryResult lastQueryResult;
 
         public MainForm()
         {
@@ -43,6 +44,10 @@ namespace SmallGis.Presentation.WinForms
             attributeQueryMenuItem.Click += AttributeQueryMenuItemClick;
             attributeQueryToolButton.Click += AttributeQueryMenuItemClick;
             spatialQueryMenuItem.Click += SpatialQueryMenuItemClick;
+            showAttributeTableMenuItem.Click += ShowAttributeTableMenuItemClick;
+            attributeTableToolButton.Click += ShowAttributeTableMenuItemClick;
+            exportCsvMenuItem.Click += ExportCsvMenuItemClick;
+            exportCsvToolButton.Click += ExportCsvMenuItemClick;
             clearSelectionMenuItem.Click += ClearSelectionMenuItemClick;
             clearSelectionToolButton.Click += ClearSelectionMenuItemClick;
             fullExtentMenuItem.Click += FullExtentMenuItemClick;
@@ -95,6 +100,16 @@ namespace SmallGis.Presentation.WinForms
 
         private void AttributeQueryMenuItemClick(object sender, EventArgs e)
         {
+            try
+            {
+                EnsureLayerSelected();
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
+                return;
+            }
+
             using (AttributeQueryForm form = new AttributeQueryForm(GetSelectedLayerName()))
             {
                 if (form.ShowDialog(this) != DialogResult.OK)
@@ -106,13 +121,27 @@ namespace SmallGis.Presentation.WinForms
                 {
                     QueryResult result = controller.QueryByAttribute(form.QueryCondition);
                     DisplayQueryResult(result);
-                    ShowAttributeTable(result);
+                    lastQueryResult = result;
+                    if (result != null && result.TotalCount > 0)
+                    {
+                        ShowAttributeTable(result);
+                    }
                 });
             }
         }
 
         private void SpatialQueryMenuItemClick(object sender, EventArgs e)
         {
+            try
+            {
+                EnsureLayerSelected();
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
+                return;
+            }
+
             using (SpatialQueryForm form = new SpatialQueryForm(GetSelectedLayerName(), axMapControl.Extent))
             {
                 if (form.ShowDialog(this) != DialogResult.OK)
@@ -124,9 +153,49 @@ namespace SmallGis.Presentation.WinForms
                 {
                     QueryResult result = controller.QueryBySpatialRelation(form.SpatialQueryCondition);
                     DisplayQueryResult(result);
-                    ShowAttributeTable(result);
+                    lastQueryResult = result;
+                    if (result != null && result.TotalCount > 0)
+                    {
+                        ShowAttributeTable(result);
+                    }
                 });
             }
+        }
+
+        private void ShowAttributeTableMenuItemClick(object sender, EventArgs e)
+        {
+            ExecuteUiAction(delegate
+            {
+                EnsureLayerSelected();
+                QueryResult result = controller.ShowAttributeTable(GetSelectedLayerName(), 1000);
+                DisplayQueryResult(result);
+                lastQueryResult = result;
+                ShowAttributeTable(result);
+            });
+        }
+
+        private void ExportCsvMenuItemClick(object sender, EventArgs e)
+        {
+            ExecuteUiAction(delegate
+            {
+                if (lastQueryResult == null || lastQueryResult.Records == null || lastQueryResult.Records.Count == 0)
+                {
+                    throw new InvalidOperationException("No query result is available to export.");
+                }
+
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Filter = "CSV file (*.csv)|*.csv";
+                    dialog.FileName = "query_result.csv";
+                    if (dialog.ShowDialog(this) != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    controller.ExportQueryResult(lastQueryResult, dialog.FileName);
+                    SetStatus("Exported CSV: " + dialog.FileName);
+                }
+            });
         }
 
         private void ClearSelectionMenuItemClick(object sender, EventArgs e)
@@ -185,6 +254,7 @@ namespace SmallGis.Presentation.WinForms
             if (result == null || result.Records == null || result.Records.Count == 0)
             {
                 SetStatus(result == null ? "No result." : result.Message);
+                MessageBox.Show(this, result == null ? "No result." : result.Message, "Small GIS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -238,11 +308,29 @@ namespace SmallGis.Presentation.WinForms
             {
                 layerListBox.Items.Add(layers[i].Name);
             }
+
+            if (layerListBox.Items.Count > 0)
+            {
+                layerListBox.SelectedIndex = 0;
+            }
         }
 
         private string GetSelectedLayerName()
         {
             return layerListBox.SelectedItem == null ? string.Empty : layerListBox.SelectedItem.ToString();
+        }
+
+        private void EnsureLayerSelected()
+        {
+            if (layerListBox.Items.Count == 0)
+            {
+                throw new InvalidOperationException("No layer is available.");
+            }
+
+            if (layerListBox.SelectedItem == null)
+            {
+                throw new InvalidOperationException("Please select a layer first.");
+            }
         }
 
         private void ExecuteUiAction(MethodInvoker action)

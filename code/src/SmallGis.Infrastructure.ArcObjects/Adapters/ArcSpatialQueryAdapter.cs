@@ -103,14 +103,36 @@ namespace SmallGis.Infrastructure.ArcObjects.Adapters
 
         private IGeometry GetSelectedFeatureGeometry(string layerName, int objectId)
         {
+            ICursor cursor = null;
             IFeatureLayer layer = FindFeatureLayer(layerName);
             if (layer == null || layer.FeatureClass == null)
             {
                 return null;
             }
 
-            IFeature feature = objectId > 0 ? layer.FeatureClass.GetFeature(objectId) : null;
-            return feature == null ? null : feature.ShapeCopy;
+            if (objectId > 0)
+            {
+                IFeature featureById = layer.FeatureClass.GetFeature(objectId);
+                return featureById == null ? null : featureById.ShapeCopy;
+            }
+
+            try
+            {
+                IFeatureSelection featureSelection = layer as IFeatureSelection;
+                if (featureSelection == null || featureSelection.SelectionSet == null || featureSelection.SelectionSet.Count == 0)
+                {
+                    return null;
+                }
+
+                featureSelection.SelectionSet.Search(null, false, out cursor);
+                IRow row = cursor == null ? null : cursor.NextRow();
+                IFeature feature = row as IFeature;
+                return feature == null ? null : feature.ShapeCopy;
+            }
+            finally
+            {
+                ArcObjectsComReleaser.Release(cursor);
+            }
         }
 
         private IFeatureLayer FindFeatureLayer(string layerName)

@@ -13,6 +13,8 @@ namespace SmallGis.Presentation.WinForms.Controllers
         private readonly ListLayersUseCase listLayersUseCase;
         private readonly QueryFeaturesByAttributeUseCase queryFeaturesByAttributeUseCase;
         private readonly QueryFeaturesBySpatialRelationUseCase queryFeaturesBySpatialRelationUseCase;
+        private readonly ShowAttributeTableUseCase showAttributeTableUseCase;
+        private readonly ExportQueryResultUseCase exportQueryResultUseCase;
         private readonly ClearSelectionUseCase clearSelectionUseCase;
         private readonly ArcMapNavigationActions navigationActions;
 
@@ -22,6 +24,8 @@ namespace SmallGis.Presentation.WinForms.Controllers
             ListLayersUseCase listLayersUseCase,
             QueryFeaturesByAttributeUseCase queryFeaturesByAttributeUseCase,
             QueryFeaturesBySpatialRelationUseCase queryFeaturesBySpatialRelationUseCase,
+            ShowAttributeTableUseCase showAttributeTableUseCase,
+            ExportQueryResultUseCase exportQueryResultUseCase,
             ClearSelectionUseCase clearSelectionUseCase,
             ArcMapNavigationActions navigationActions)
         {
@@ -30,6 +34,8 @@ namespace SmallGis.Presentation.WinForms.Controllers
             this.listLayersUseCase = listLayersUseCase;
             this.queryFeaturesByAttributeUseCase = queryFeaturesByAttributeUseCase;
             this.queryFeaturesBySpatialRelationUseCase = queryFeaturesBySpatialRelationUseCase;
+            this.showAttributeTableUseCase = showAttributeTableUseCase;
+            this.exportQueryResultUseCase = exportQueryResultUseCase;
             this.clearSelectionUseCase = clearSelectionUseCase;
             this.navigationActions = navigationActions;
         }
@@ -62,6 +68,16 @@ namespace SmallGis.Presentation.WinForms.Controllers
         public QueryResult QueryBySpatialRelation(SpatialQueryCondition condition)
         {
             return queryFeaturesBySpatialRelationUseCase.Execute(condition);
+        }
+
+        public QueryResult ShowAttributeTable(string layerName, int maxCount)
+        {
+            return showAttributeTableUseCase.Execute(layerName, maxCount);
+        }
+
+        public void ExportQueryResult(QueryResult result, string outputPath)
+        {
+            exportQueryResultUseCase.Execute(result, outputPath);
         }
 
         public void ClearSelection()
