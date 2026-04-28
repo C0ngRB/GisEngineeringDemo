@@ -31,7 +31,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="ESRI.ArcGIS.AxControls" />
     <Reference Include="ESRI.ArcGIS.Controls" />
+    <Reference Include="ESRI.ArcGIS.Display" />
+    <Reference Include="ESRI.ArcGIS.Geometry" />
+    <Reference Include="ESRI.ArcGIS.SystemUI" />
     <Reference Include="ESRI.ArcGIS.System" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +53,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composition\AppCompositionRoot.cs" />
+    <Compile Include="Controllers\MainFormController.cs" />
+    <Compile Include="Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AttributeQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AttributeTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LayerManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SpatialQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
