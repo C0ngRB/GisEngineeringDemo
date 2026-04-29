@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Adds a File Geodatabase feature class through the layer catalog port. / 通过图层目录端口添加 File Geodatabase 要素类。
+    /// </summary>
     public class AddFileGdbLayerUseCase
     {
         private readonly ILayerCatalogPort layerCatalogPort;

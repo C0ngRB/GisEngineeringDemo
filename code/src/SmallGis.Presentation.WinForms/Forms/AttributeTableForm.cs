@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Presentation.WinForms.Forms
 {
+    /// <summary>
+    /// Displays query records in a read-only table. / 以只读表格显示查询记录。
+    /// </summary>
     public class AttributeTableForm : Form
     {
         private readonly DataGridView gridView;

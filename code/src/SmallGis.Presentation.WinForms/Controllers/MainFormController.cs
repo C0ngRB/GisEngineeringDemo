@@ -6,6 +6,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Presentation.WinForms.Controllers
 {
+    /// <summary>
+    /// Coordinates UI requests with Application use cases. / 协调 UI 请求和 Application 用例。
+    /// </summary>
     public class MainFormController
     {
         private readonly OpenMapDocumentUseCase openMapDocumentUseCase;
@@ -106,6 +109,9 @@ namespace SmallGis.Presentation.WinForms.Controllers
         }
     }
 
+    /// <summary>
+    /// Thin wrapper for navigation operations exposed to the controller. / 暴露给控制器的地图浏览操作薄封装。
+    /// </summary>
     public class ArcMapNavigationActions
     {
         private readonly SmallGis.Application.Ports.IMapNavigationPort mapNavigationPort;

@@ -1,5 +1,8 @@
 namespace SmallGis.Domain.Enums
 {
+    /// <summary>
+    /// Supported operators for attribute query conditions. / 属性查询条件支持的操作符。
+    /// </summary>
     public enum QueryOperator
     {
         Equal = 0,

@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Adds a Shapefile layer through the layer catalog port. / 通过图层目录端口添加 Shapefile 图层。
+    /// </summary>
     public class AddShapefileLayerUseCase
     {
         private readonly ILayerCatalogPort layerCatalogPort;

@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Executes an attribute query and synchronizes returned object IDs to selection. / 执行属性查询，并将返回的 ObjectID 同步到地图选择集。
+    /// </summary>
     public class QueryFeaturesByAttributeUseCase
     {
         private readonly IFeatureQueryPort queryPort;
@@ -46,6 +49,7 @@ namespace SmallGis.Application.UseCases
             logger.Info("Attribute query: " + condition.LayerName);
 
             QueryResult result = queryPort.QueryByAttribute(condition);
+            // Keep the map selection in sync with the query result while UI only sees domain records. / 保持地图选择集与查询结果同步，同时 UI 只接触领域记录。
             selectionPort.SelectFeatures(condition.LayerName, GetObjectIds(result));
 
             if (result != null)

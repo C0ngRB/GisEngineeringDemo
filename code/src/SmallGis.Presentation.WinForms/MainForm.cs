@@ -8,6 +8,9 @@ using SmallGis.Presentation.WinForms.Forms;
 
 namespace SmallGis.Presentation.WinForms
 {
+    /// <summary>
+    /// Main shell form. It handles UI events and delegates GIS workflows to MainFormController. / 主界面窗体，处理 UI 事件并将 GIS 流程委托给 MainFormController。
+    /// </summary>
     public partial class MainForm : Form
     {
         private MainFormController controller;
@@ -26,6 +29,7 @@ namespace SmallGis.Presentation.WinForms
             {
                 axTocControl.SetBuddyControl(axMapControl);
                 axToolbarControl.SetBuddyControl(axMapControl);
+                // Dependency composition is isolated from the form constructor so controls are initialized first. / 依赖装配从窗体构造函数中分离，确保控件先完成初始化。
                 controller = AppCompositionRoot.Create(axMapControl);
                 SetStatus("Ready");
             }
@@ -119,6 +123,7 @@ namespace SmallGis.Presentation.WinForms
 
                 ExecuteUiAction(delegate
                 {
+                    // MainForm displays results only; the query itself is handled by the Application use case. / MainForm 只展示结果，查询本身由 Application 用例处理。
                     QueryResult result = controller.QueryByAttribute(form.QueryCondition);
                     DisplayQueryResult(result);
                     lastQueryResult = result;

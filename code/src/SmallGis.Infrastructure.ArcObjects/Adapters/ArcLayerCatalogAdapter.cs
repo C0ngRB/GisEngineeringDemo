@@ -14,6 +14,9 @@ using DomainFieldInfo = SmallGis.Domain.Models.FieldInfo;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// ArcObjects-backed layer catalog. Converts ArcObjects layers and fields to domain models. / 基于 ArcObjects 的图层目录，将图层和字段转换为领域模型。
+    /// </summary>
     public class ArcLayerCatalogAdapter : ILayerCatalogPort
     {
         private readonly IMapControl3 mapControl;
@@ -65,6 +68,7 @@ namespace SmallGis.Infrastructure.ArcObjects.Adapters
                     throw new ArgumentException("Shapefile path is required.");
                 }
 
+                // Workspace factories are isolated here so Application and Domain never reference ArcObjects. / 工作空间工厂隔离在此处，避免 Application 和 Domain 引用 ArcObjects。
                 IWorkspaceFactory factory = new ShapefileWorkspaceFactoryClass();
                 workspace = factory.OpenFromFile(folderPath, 0);
                 IFeatureWorkspace featureWorkspace = (IFeatureWorkspace)workspace;

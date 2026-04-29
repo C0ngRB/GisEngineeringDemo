@@ -8,6 +8,9 @@ using SmallGis.Infrastructure.ArcObjects.Utilities;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// Synchronizes domain object IDs with ArcObjects feature selection. / 将领域层 ObjectID 同步到 ArcObjects 要素选择集。
+    /// </summary>
     public class ArcSelectionAdapter : ISelectionPort
     {
         private readonly IMapControl3 mapControl;

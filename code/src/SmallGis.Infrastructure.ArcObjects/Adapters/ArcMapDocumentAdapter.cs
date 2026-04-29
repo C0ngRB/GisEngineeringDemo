@@ -7,6 +7,9 @@ using SmallGis.Infrastructure.ArcObjects.Utilities;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// ArcObjects implementation for opening map documents through IMapControl3. / 通过 IMapControl3 打开地图文档的 ArcObjects 实现。
+    /// </summary>
     public class ArcMapDocumentAdapter : IMapDocumentPort
     {
         private readonly IMapControl3 mapControl;

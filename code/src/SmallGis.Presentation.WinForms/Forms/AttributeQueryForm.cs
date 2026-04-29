@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Presentation.WinForms.Forms
 {
+    /// <summary>
+    /// Collects attribute query parameters without executing the query. / 收集属性查询参数，但不执行查询。
+    /// </summary>
     public class AttributeQueryForm : Form
     {
         private readonly TextBox layerTextBox;

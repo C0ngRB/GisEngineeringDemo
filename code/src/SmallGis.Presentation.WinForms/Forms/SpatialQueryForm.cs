@@ -6,6 +6,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Presentation.WinForms.Forms
 {
+    /// <summary>
+    /// Collects spatial query parameters for extent or selected-feature queries. / 收集当前范围或选中要素空间查询参数。
+    /// </summary>
     public class SpatialQueryForm : Form
     {
         private readonly TextBox targetLayerTextBox;

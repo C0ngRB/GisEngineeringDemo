@@ -7,6 +7,9 @@ using SmallGis.Application.Ports;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// Wraps map navigation operations provided by the ArcGIS map control. / 封装 ArcGIS 地图控件提供的地图浏览操作。
+    /// </summary>
     public class ArcMapNavigationAdapter : IMapNavigationPort
     {
         private readonly IMapControl3 mapControl;

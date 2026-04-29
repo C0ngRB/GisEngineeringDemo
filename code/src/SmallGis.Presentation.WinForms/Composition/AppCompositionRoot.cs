@@ -8,6 +8,9 @@ using SmallGis.Presentation.WinForms.Controllers;
 
 namespace SmallGis.Presentation.WinForms.Composition
 {
+    /// <summary>
+    /// Builds the object graph for the WinForms application. / 构建 WinForms 应用的对象依赖图。
+    /// </summary>
     public static class AppCompositionRoot
     {
         public static MainFormController Create(AxMapControl mapControl)
@@ -20,6 +23,7 @@ namespace SmallGis.Presentation.WinForms.Composition
                 throw new InvalidOperationException("ArcGIS map control is not initialized.");
             }
 
+            // ArcGIS controls stay in Presentation; adapters receive only the ArcObjects control interface. / ArcGIS 控件保留在 Presentation，适配器只接收 ArcObjects 控件接口。
             FileLogger logger = new FileLogger(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs"));
             ArcMapDocumentAdapter mapDocumentAdapter = new ArcMapDocumentAdapter(mapControlAdapter);
             ArcLayerCatalogAdapter layerCatalogAdapter = new ArcLayerCatalogAdapter(mapControlAdapter);

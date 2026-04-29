@@ -5,6 +5,9 @@ using SmallGis.Application.Ports;
 
 namespace SmallGis.Infrastructure.ArcObjects.Logging
 {
+    /// <summary>
+    /// Simple file-based logger used by use cases and adapters. / 供用例和适配器使用的简单文件日志器。
+    /// </summary>
     public class FileLogger : ILoggerPort
     {
         private readonly string logDirectory;

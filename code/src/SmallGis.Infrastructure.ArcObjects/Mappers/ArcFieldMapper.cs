@@ -3,6 +3,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Infrastructure.ArcObjects.Mappers
 {
+    /// <summary>
+    /// Converts ArcObjects field metadata to a domain FieldInfo. / 将 ArcObjects 字段元数据转换为领域层 FieldInfo。
+    /// </summary>
     public class ArcFieldMapper
     {
         public FieldInfo Map(IField field)

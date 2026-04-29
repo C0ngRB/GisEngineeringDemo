@@ -3,6 +3,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.Ports
 {
+    /// <summary>
+    /// Port for layer catalog operations implemented by the ArcObjects adapter. / 图层目录操作端口，由 ArcObjects 适配器实现。
+    /// </summary>
     public interface ILayerCatalogPort
     {
         IList<LayerInfo> GetLayers();

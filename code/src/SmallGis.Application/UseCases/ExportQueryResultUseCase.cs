@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Exports a query result through the configured export port. / 通过已配置的导出端口导出查询结果。
+    /// </summary>
     public class ExportQueryResultUseCase
     {
         private readonly IQueryResultExportPort exportPort;

@@ -13,6 +13,9 @@ using DomainQueryResult = SmallGis.Domain.Models.QueryResult;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// Executes attribute queries with IQueryFilter and returns ArcObjects-free records. / 使用 IQueryFilter 执行属性查询，并返回不含 ArcObjects 的记录。
+    /// </summary>
     public class ArcFeatureQueryAdapter : IFeatureQueryPort
     {
         private readonly IMapControl3 mapControl;
@@ -62,6 +65,7 @@ namespace SmallGis.Infrastructure.ArcObjects.Adapters
                     LayerName = layer.Name
                 };
 
+                // The cursor stays inside Infrastructure and is released in finally. / 游标只停留在 Infrastructure 内部，并在 finally 中释放。
                 cursor = layer.FeatureClass.Search(filter, true);
                 IFeature feature = cursor.NextFeature();
                 while (feature != null)

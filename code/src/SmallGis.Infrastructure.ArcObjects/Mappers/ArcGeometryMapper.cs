@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Infrastructure.ArcObjects.Mappers
 {
+    /// <summary>
+    /// Converts ArcObjects geometry metadata to domain geometry values. / 将 ArcObjects 几何元数据转换为领域层几何值。
+    /// </summary>
     public class ArcGeometryMapper
     {
         public GeometryType MapGeometryType(esriGeometryType geometryType)

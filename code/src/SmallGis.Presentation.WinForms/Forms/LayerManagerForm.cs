@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Presentation.WinForms.Forms
 {
+    /// <summary>
+    /// Displays current layer metadata returned by the layer catalog use case. / 显示图层目录用例返回的当前图层元数据。
+    /// </summary>
     public class LayerManagerForm : Form
     {
         public LayerManagerForm(IList<LayerInfo> layers)

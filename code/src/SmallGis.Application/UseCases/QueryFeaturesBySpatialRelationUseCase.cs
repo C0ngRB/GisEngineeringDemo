@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Chooses the appropriate spatial query path and mirrors results into selection. / 选择合适的空间查询路径，并将结果同步到选择集。
+    /// </summary>
     public class QueryFeaturesBySpatialRelationUseCase
     {
         private readonly ISpatialQueryPort spatialQueryPort;

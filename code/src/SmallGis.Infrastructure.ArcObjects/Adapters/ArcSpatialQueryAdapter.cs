@@ -11,6 +11,9 @@ using DomainQueryResult = SmallGis.Domain.Models.QueryResult;
 
 namespace SmallGis.Infrastructure.ArcObjects.Adapters
 {
+    /// <summary>
+    /// Executes spatial queries with ISpatialFilter and maps results back to domain records. / 使用 ISpatialFilter 执行空间查询，并将结果映射为领域记录。
+    /// </summary>
     public class ArcSpatialQueryAdapter : ISpatialQueryPort
     {
         private readonly IMapControl3 mapControl;
@@ -64,6 +67,7 @@ namespace SmallGis.Infrastructure.ArcObjects.Adapters
                     throw new ArgumentException("Target feature layer not found.", "condition");
                 }
 
+                // Spatial filter construction belongs in Infrastructure because it depends on ArcObjects. / 空间过滤器依赖 ArcObjects，因此构造逻辑属于 Infrastructure。
                 ISpatialFilter filter = new SpatialFilterClass();
                 filter.Geometry = queryGeometry;
                 filter.GeometryField = layer.FeatureClass.ShapeFieldName;
@@ -124,6 +128,7 @@ namespace SmallGis.Infrastructure.ArcObjects.Adapters
                     return null;
                 }
 
+                // Batch F supports using the current selection when no explicit object ID is supplied. / Batch F 支持未提供 ObjectID 时使用当前选择集。
                 featureSelection.SelectionSet.Search(null, false, out cursor);
                 IRow row = cursor == null ? null : cursor.NextRow();
                 IFeature feature = row as IFeature;

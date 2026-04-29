@@ -4,6 +4,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Opens an MXD and refreshes layer metadata through application ports. / 通过应用层端口打开 MXD 并刷新图层元数据。
+    /// </summary>
     public class OpenMapDocumentUseCase
     {
         private readonly IMapDocumentPort mapDocumentPort;

@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Infrastructure.ArcObjects.Mappers
 {
+    /// <summary>
+    /// Converts ArcObjects layer objects to domain LayerInfo values. / 将 ArcObjects 图层对象转换为领域层 LayerInfo。
+    /// </summary>
     public class ArcLayerMapper
     {
         private readonly ArcGeometryMapper geometryMapper;

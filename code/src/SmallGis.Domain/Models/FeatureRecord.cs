@@ -3,6 +3,9 @@ using SmallGis.Domain.Enums;
 
 namespace SmallGis.Domain.Models
 {
+    /// <summary>
+    /// Query result row converted from an ArcObjects feature. / 由 ArcObjects 要素转换得到的查询结果行。
+    /// </summary>
     public class FeatureRecord
     {
         public FeatureRecord()

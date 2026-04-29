@@ -7,6 +7,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Infrastructure.ArcObjects.Export
 {
+    /// <summary>
+    /// Exports query records to CSV using only domain query results. / 仅基于领域层查询结果导出 CSV。
+    /// </summary>
     public class CsvQueryResultExporter : IQueryResultExportPort
     {
         public void ExportToCsv(QueryResult result, string outputPath)

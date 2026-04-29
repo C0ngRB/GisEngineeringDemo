@@ -5,6 +5,9 @@ using SmallGis.Domain.Models;
 
 namespace SmallGis.Application.UseCases
 {
+    /// <summary>
+    /// Reads feature records for attribute table display through the query port. / 通过查询端口读取用于属性表展示的要素记录。
+    /// </summary>
     public class ShowAttributeTableUseCase
     {
         private readonly IFeatureQueryPort featureQueryPort;
