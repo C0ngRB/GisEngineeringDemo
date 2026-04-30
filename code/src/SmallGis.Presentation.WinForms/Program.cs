@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 
 namespace SmallGis.Presentation.WinForms
@@ -15,6 +16,13 @@ namespace SmallGis.Presentation.WinForms
             IAoInitialize aoInitialize = null;
             try
             {
+                // Bind the ArcGIS runtime before creating AoInitialize or any Engine control. / 在创建 AoInitialize 或任何 Engine 控件前绑定 ArcGIS 运行时。
+                if (!RuntimeManager.Bind(ProductCode.EngineOrDesktop))
+                {
+                    MessageBox.Show("ArcGIS Runtime 绑定失败，请确认 ArcGIS Engine 10.2 或 ArcGIS Desktop 已正确安装。", "Small GIS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 aoInitialize = new AoInitializeClass();
                 InitializeLicense(aoInitialize);
 

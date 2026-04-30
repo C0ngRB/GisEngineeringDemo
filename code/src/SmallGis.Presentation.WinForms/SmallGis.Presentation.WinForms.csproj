@@ -35,6 +35,7 @@
     <Reference Include="ESRI.ArcGIS.Controls" />
     <Reference Include="ESRI.ArcGIS.Display" />
     <Reference Include="ESRI.ArcGIS.Geometry" />
+    <Reference Include="ESRI.ArcGIS.Version" />
     <Reference Include="ESRI.ArcGIS.SystemUI" />
     <Reference Include="ESRI.ArcGIS.System" />
   </ItemGroup>
